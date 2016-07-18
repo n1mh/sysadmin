@@ -39,21 +39,21 @@ apt-get install -y fail2ban sudo
 #apt-get install -y git unattended-upgrades
 
 # new user
-useradd diego
-passwd diego
-mkdir /home/diego
-chmod -R 700 /home/diego
-chown -R diego:diego /home/diego
+useradd jonsnow
+passwd jonsnow
+mkdir /home/jonsnow
+chmod -R 700 /home/jonsnow
+chown -R jonsnow:jonsnow /home/jonsnow
 
 # configure sudo
-usermod -a -G sudo diego
+usermod -a -G sudo jonsnow
 sed -i 's/%sudo   ALL=(ALL:ALL) ALL/%sudo   ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 chmod 440 /etc/sudoers
 
 # little setup for ssh
 sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
 echo "DebianBanner no" >> /etc/ssh/sshd_config
-echo "AllowUsers diego" >> /etc/ssh/sshd_config
+echo "AllowUsers jonsnow" >> /etc/ssh/sshd_config
 echo "MaxStartups 1" >> /etc/ssh/sshd_config
 echo "MaxAuthTries 2" >> /etc/ssh/sshd_config
 service ssh restart
