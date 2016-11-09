@@ -1,0 +1,6 @@
+- name: Configure standar server for the first time
+  host: *
+  sudo: True
+  tasks:
+      - name: install vim
+        yum: name=vim
