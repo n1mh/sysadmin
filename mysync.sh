@@ -9,17 +9,17 @@ PATH="/bin:/usr/bin:/sbin:/usr/sbin"
 LANG="C"
 NAME=`basename $0`
 # Remote connection
-SERVER__URI="idefix.galia.local"
+SERVER__URI="server.example.com"
 SERVER_PORT="22"
-SERVER_USER="bu"
-SERVER__KEY="/root/.ssh/id_rsa_idefix"
+SERVER_USER="backupuser"
+SERVER__KEY="/root/.ssh/id_rsa"
 SERVER_OPTS="ssh -i $SERVER__KEY -p $SERVER_PORT"
 SERVER_PATH="/data/backup/`hostname -f`"
 SERVER_CONN="$SERVER_USER@$SERVER__URI:$SERVER_PATH"
 # Directory sync
 DIR_OPTIONS="--delete"
 DIR_WHTLIST="/root /etc /home"
-#DIR_BLKLIST="--exclude=oc.example.com/data"
+DIR_BLKLIST="--exclude=oc.example.com/data"
 # SQL server
 SQL__SYSTEM="mysql"
 SQL_CNFFILE="/etc/mysql/my.cnf"
