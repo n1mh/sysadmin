@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Diego Martínez Castañeda <n1mh@n1mh.org>
+# mié ene 24 12:10:17 CET 2018
+#
+# Syncronization with google drive, although it work with several cloud
+# platforms.
+#
+# Before use this script must install rclone and configure it. Remote volume is
+# called 'gdrive' here but you'll probably have to change it.
+#   $ sudo apt-get install -y rclone
+#   $ rclone config
+#   $ vi ~/bin/sync_gdrive.sh
+#   $ bash ~/bin/sync_gdrive.sh
+
+DIRS="/home/diego/docs/01_solutia-it.es /home/diego/docs/02_documentacion /home/diego/docs/04_configuraciones_wolf"
+REMOTE_DRIVE="gdrive"
+REMOTE_DIR="sync_wolf.galia.local"
+
+if [ `rclone lsd $REMOTE_DRIVE:$REMOTE_DIR | grep -ci 'directory not found'` = '1' ] ; then
+    echo "W: falta directorio remoto $REMOTE_DIR. Creando..."
+    rclone mkdir $REMOTE_DRIVE:$REMOTE_DIR
+fi
+
+for DIR in $DIRS ; do
+    REMOTE_DIR_NAME=`basename $DIR`
+    if [ `rclone lsd $REMOTE_DRIVE:$REMOTE_DIR/$REMOTE_DIR_NAME | grep -ci 'directory not found'` = '1' ] ; then
+        echo "W: falta directorio remoto $REMOTE_DIR/$REMOTE_DIR_NAME. Creando..."
+        rclone mkdir $REMOTE_DRIVE:$REMOTE_DIR/$REMOTE_DIR_NAME
+    fi
+
+    echo "clonando: $DIR --> $REMOTE_DIR/$REMOTE_DIR_NAME... "
+    rclone copy --update $DIR $REMOTE_DRIVE:$REMOTE_DIR/$REMOTE_DIR_NAME
+done
+
+exit 0
