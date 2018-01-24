@@ -18,18 +18,18 @@ REMOTE_DRIVE="gdrive"
 REMOTE_DIR="sync"
 
 if [ `rclone lsd $REMOTE_DRIVE:$REMOTE_DIR | grep -ci 'directory not found'` = '1' ] ; then
-    echo "W: falta directorio remoto $REMOTE_DIR. Creando..."
+    echo "W: remote directory not found $REMOTE_DIR. Creating it..."
     rclone mkdir $REMOTE_DRIVE:$REMOTE_DIR
 fi
 
 for DIR in $DIRS ; do
     REMOTE_DIR_NAME=`basename $DIR`
     if [ `rclone lsd $REMOTE_DRIVE:$REMOTE_DIR/$REMOTE_DIR_NAME | grep -ci 'directory not found'` = '1' ] ; then
-        echo "W: falta directorio remoto $REMOTE_DIR/$REMOTE_DIR_NAME. Creando..."
+        echo "W: remote directory not found $REMOTE_DIR/$REMOTE_DIR_NAME. Creating it..."
         rclone mkdir $REMOTE_DRIVE:$REMOTE_DIR/$REMOTE_DIR_NAME
     fi
 
-    echo "clonando: $DIR --> $REMOTE_DIR/$REMOTE_DIR_NAME... "
+    echo "Sync: $DIR --> $REMOTE_DIR/$REMOTE_DIR_NAME... "
     rclone copy --update $DIR $REMOTE_DRIVE:$REMOTE_DIR/$REMOTE_DIR_NAME
 done
 
