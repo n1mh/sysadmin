@@ -13,7 +13,7 @@ SERVER__URI="server.example.com"
 SERVER_PORT="22"
 SERVER_USER="backupuser"
 SERVER__KEY="/root/.ssh/id_rsa"
-SERVER_OPTS="ssh -i $SERVER__KEY -p $SERVER_PORT"
+SERVER_OPTS="ssh -i $SERVER__KEY -p $SERVER_PORT -o StrictHostKeyChecking=no"
 SERVER_PATH="/data/backup/`hostname -f`"
 SERVER_CONN="$SERVER_USER@$SERVER__URI:$SERVER_PATH"
 # Directory sync
